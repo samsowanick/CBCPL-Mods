@@ -1,0 +1,13 @@
+//Make sure that the jquery and page ids match.
+//Source Code for Delivery Report Page
+<script src="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.6.13/flatpickr.min.js"></script>
+<div id="delivery_report"><fieldset class="rows"><b>Get Formatted Slips</b>
+<ol>
+<li><label for="date">Date:</label> <input id="date" name="date" size="20" class="flatpickr" type="text" /></li>
+<li><label for="number">Number of slips:</label> <input id="number" name="date" value="1" size="20" type="text" /></li>
+</ol>
+<button class="print-order-slip btn btn-primary">Print Slips</button> <br /><br /><button class="print-order-address btn btn-primary">Get Addresses</button> <br /><hr /><b>Get a Single Formatted Slip</b><br />
+<p>Use the below filter to get slips for a single patron. Use the same "Print Slips" button above. <i>(You must put '1', in the "Number of slips" field).</i></p>
+<label for="date">Cardnumber: </label> <input id="cardnumber_search" value="%" size="20" type="text" />
+<p><i>Leave as '%' for normal slip report.</i></p>
+</fieldset></div>
