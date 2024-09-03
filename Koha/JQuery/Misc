@@ -1,0 +1,107 @@
+//Modify Messages
+$(document).ready(function(){
+     //$("#messages > ul > li > span > em").insertBefore("#messages > ul > li > span");
+     $("#messages").insertBefore("#circnotes");
+});
+
+//Modification link update to report -- Need to include new link under left nav that is clickable
+$(document).ready(function () {
+$("#menu > ul").append('<li><a href="https://staff-corvallis.bywatersolutions.com/cgi-bin/koha/reports/guided_reports.pl?reports=451&phase=Run%20this%20report">Modification Logs</a></li>');
+});
+
+//Patron Cancelled Holds Report Link in account
+$(document).ready(function () {
+$("#menu > ul").append('<li><a href="https://staff-corvallis.bywatersolutions.com/cgi-bin/koha/reports/guided_reports.pl?reports=472&phase=Run%20this%20report">Cancelled Holds (7 Days)</a></li>');
+});
+
+//Move Quote of the Day and print options
+$(document).ready(function(){
+     $("#area-quote").insertBefore("#container-main > div > div.col-sm-9.col-lg-6 > div:nth-child(2)");
+     $("#container-main > div > div.col-sm-9.col-lg-6").insertBefore("#container-main > div > div.col-sm-3");
+     $("#container-main > div > div.col-sm-9.col-lg-6 > div:nth-child(3)").insertBefore("#container-main > div > div.col-sm-9.col-lg-6 > div:nth-child(1)");
+  });
+
+//Hide stuff
+$(document).ready(function(){
+      $("#patron_messages > ul > li.return_claims.blocker").hide();
+      $("#circmessages > ul > li.return_claims.blocker").hide();
+      $("#patron-privacyguarantor").hide();
+      $("#patron-privacy_guarantor_fines").hide();
+      $("#circ_returns > div.main.container-fluid > div.row > div > main > div > div.col-sm-10.col-sm-push-2 > div.static_checkin_messages > div.dialog.alert.audio-alert-warning").hide();
+  	  //$("#memberentry_housebound_roles").hide();
+      $("#memberentry_contact > ol > li:nth-child(4)").hide();
+      $("#memberentry_subscription > ol > li:contains('OPAC note:')").hide();
+  	  $("#holdsover-cancel-all > form").hide();
+  	  $("#circ_circulation_issue > fieldset:contains('Due date:')").hide();
+      $("#tabs > ul > li:contains('Croned Reports')").hide();
+      $("#menu > ul > li:contains('Modification log')").hide();
+      $("span.patroncategory_code").hide();
+});
+
+//hide the holds to pull. 
+$(document).ready(function(){ 
+  $("ul li:contains('Holds to pull')").remove(); });
+
+//Hide rental charge info from item tab 
+$("#catalog_moredetail li:contains('Rental charge:')").hide();
+$("#catalog_moredetail li:contains('Daily rental charge:')").hide();
+$("#catalog_moredetail li:contains('Hourly rental charge:')").hide();
+
+//Always display checkouts, 22.05+
+$(document).ready(function() {
+if (typeof script !== 'undefined' && Cookies.get("issues-table-load-immediately-" + script) !== "true") {
+    Cookies.set("issues-table-load-immediately-" + script, true, { expires: 365, sameSite: 'Lax'  });
+}
+});
+
+//Hide most Reports on Reports landing page - 22.11
+$(document).ready(function(){
+    if ( $('#rep_reports-home').length ) {
+        $('.col-xs-6  > ul').hide();
+        $('.col-xs-6  > h2').hide();
+        $('.col-xs-6  > h5').hide();
+        $('.col-xs-6 form').append('<h2><a href="https://schema.koha-community.org/22_11/" target="blank">Koha database schema</a><h2><h2><a href="http://wiki.koha-community.org/wiki/SQL_Reports_Library" target="blank">Koha reports library</a></h2>');}});
+
+//Hide ccode Leased - ed 
+$(document).ready(function(){
+ $('option[value="LEASED"]').hide();
+ $("#ccode-130").closest('td').hide();
+ $('label[for="ccode-130"]').hide();
+ $('.facet-label:contains("Leased")').hide();
+});
+
+//Change words to other words
+$(document).ready(function(){
+$(".required:contains('Surname:')").text('Last Name:');
+$("#holds-table > thead > tr > th:nth-child(9):contains('Delete?')").text('Cancel?');
+$("#circ_circulation-home > div.main.container-fluid > div:nth-child(2) > div:nth-child(2) > ul > li:nth-child(1) > a").html('<i class="fa fa-tasks"></i> Picklist');
+$("#patron-library-details > div.rows > ol:contains('Short Term Resident (VISITOR)')").append('<li id="patron-categorydescriptionnew"><span class="label">Category: </span>Short Term Resident</li>');
+$("#patron-categorydescription:contains('Short Term Resident (VISITOR)')").hide();
+$("#patron-categorydescriptionnew").insertAfter("#patron-borrowernumber");
+});
+
+//Adding print option in patron account
+$(document).ready(function(){
+$("#toolbar > div.btn-group.open > ul > li:nth-child(1)").append("#toolbar > div.btn-group.open > ul > li:nth-child(0)").html("");
+});
+
+//Messages in a patrons account - move above holds
+$(document).ready(function(){
+$("#messages").insertBefore('#holdswaiting');
+});
+
+//hide previous borrowers in item detail view RT116262 06.30.2023 LO
+if ( $('#catalog_moredetail').length ) {
+$('.label:contains("Previous borrower")').parent('li').remove();
+}
+
+// Fix registration date when duplicating patrons - Bug 33872/34117
+$(document).ready(function () {
+    if (window.location.href.indexOf("memberentry.pl?op=duplicate") > -1) {
+		var now = new Date();
+var day = ("0" + now.getDate()).slice(-2);
+var month = ("0" + (now.getMonth() + 1)).slice(-2);
+var today = now.getFullYear()+"-"+(month)+"-"+(day) ;
+$('#from').val(today);
+   }
+ });
