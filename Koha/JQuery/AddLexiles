@@ -1,0 +1,7 @@
+//add lexile to search pull downs
+ $(document).ready(function(){
+        $("select[name='idx']").append("<option value='lexile-number,st-numeric'>Lexile score (e.g. 600 or 550-650 )</option>");
+        $("select[name='idx']").append("<option value='Interest-age-level,wrdl'>Interest Age Level</option>");
+        $("select[name='idx']").append("<option value='Interest-grade-level,wrdl'>Interest Grade Level</option>");
+        $("select[name='idx']").append("<option value='Reading-grade-level,wrdl'>+Reading Grade Level</option>");
+    });
