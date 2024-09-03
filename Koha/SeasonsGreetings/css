@@ -1,0 +1,411 @@
+/*Falling Ambience*/
+/*toggle*/
+/* The switch - the box around the slider */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 30px;
+  height: 17px;
+}
+
+/* Hide default HTML checkbox */
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+/* The slider */
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 13px;
+  width: 13px;
+  left: 2px;
+  bottom: 2px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+input:checked + .slider {
+  background-color: #2196F3;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(13px);
+  -ms-transform: translateX(13px);
+  transform: translateX(13px);
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 13px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+/*end toggle*/
+
+@-webkit-keyframes fall {
+    0% {
+        opacity: 0.9;
+        top: 0
+    }
+    100% {
+        opacity: 0.2;
+        top: 100%
+    }
+}
+
+@keyframes fall {
+    0% {
+        opacity: 0.9;
+        top: 0
+    }
+    100% {
+        opacity: 0.2;
+        top: 100%
+    }
+}
+
+@-webkit-keyframes blow-soft-left {
+    0% {
+        margin-left: 0
+    }
+    100% {
+        margin-left: -50%
+    }
+}
+
+@keyframes blow-soft-left {
+    0% {
+        margin-left: 0
+    }
+    100% {
+        margin-left: -50%
+    }
+}
+
+@-webkit-keyframes blow-medium-left {
+    0% {
+        margin-left: 0
+    }
+    100% {
+        margin-left: -100%
+    }
+}
+
+@keyframes blow-medium-left {
+    0% {
+        margin-left: 0
+    }
+    100% {
+        margin-left: -100%
+    }
+}
+
+@-webkit-keyframes blow-soft-right {
+    0% {
+        margin-left: 0
+    }
+    100% {
+        margin-left: 50%
+    }
+}
+
+@keyframes blow-soft-right {
+    0% {
+        margin-left: 0
+    }
+    100% {
+        margin-left: 50%
+    }
+}
+
+@-webkit-keyframes blow-medium-right {
+    0% {
+        margin-left: 0
+    }
+    100% {
+        margin-left: 100%
+    }
+}
+
+@keyframes blow-medium-right {
+    0% {
+        margin-left: 0
+    }
+    100% {
+        margin-left: 100%
+    }
+}
+
+@-webkit-keyframes sway-0 {
+    0% {
+        -webkit-transform: rotate(-5deg)
+    }
+    40% {
+        -webkit-transform: rotate(28deg)
+    }
+    100% {
+        -webkit-transform: rotate(3deg)
+    }
+}
+
+@keyframes sway-0 {
+    0% {
+        -ms-transform: rotate(-5deg);
+        transform: rotate(-5deg)
+    }
+    40% {
+        -ms-transform: rotate(28deg);
+        transform: rotate(28deg)
+    }
+    100% {
+        -ms-transform: rotate(3deg);
+        transform: rotate(3deg)
+    }
+}
+
+@-webkit-keyframes sway-1 {
+    0% {
+        -webkit-transform: rotate(10deg)
+    }
+    40% {
+        -webkit-transform: rotate(43deg)
+    }
+    100% {
+        -webkit-transform: rotate(15deg)
+    }
+}
+
+@keyframes sway-1 {
+    0% {
+        -ms-transform: rotate(10deg);
+        transform: rotate(10deg)
+    }
+    40% {
+        -ms-transform: rotate(43deg);
+        transform: rotate(43deg)
+    }
+    100% {
+        -ms-transform: rotate(15deg);
+        transform: rotate(15deg)
+    }
+}
+
+@-webkit-keyframes sway-2 {
+    0% {
+        -webkit-transform: rotate(15deg)
+    }
+    40% {
+        -webkit-transform: rotate(56deg)
+    }
+    100% {
+        -webkit-transform: rotate(22deg)
+    }
+}
+
+@keyframes sway-2 {
+    0% {
+        -ms-transform: rotate(15deg);
+        transform: rotate(15deg)
+    }
+    40% {
+        -ms-transform: rotate(56deg);
+        transform: rotate(56deg)
+    }
+    100% {
+        -ms-transform: rotate(22deg);
+        transform: rotate(22deg)
+    }
+}
+
+@-webkit-keyframes sway-3 {
+    0% {
+        -webkit-transform: rotate(25deg)
+    }
+    40% {
+        -webkit-transform: rotate(74deg)
+    }
+    100% {
+        -webkit-transform: rotate(37deg)
+    }
+}
+
+@keyframes sway-3 {
+    0% {
+        -ms-transform: rotate(25deg);
+        transform: rotate(25deg)
+    }
+    40% {
+        -ms-transform: rotate(74deg);
+        transform: rotate(74deg)
+    }
+    100% {
+        -ms-transform: rotate(37deg);
+        transform: rotate(37deg)
+    }
+}
+
+@-webkit-keyframes sway-4 {
+    0% {
+        -webkit-transform: rotate(40deg)
+    }
+    40% {
+        -webkit-transform: rotate(68deg)
+    }
+    100% {
+        -webkit-transform: rotate(25deg)
+    }
+}
+
+@keyframes sway-4 {
+    0% {
+        -ms-transform: rotate(40deg);
+        transform: rotate(40deg)
+    }
+    40% {
+        -ms-transform: rotate(68deg);
+        transform: rotate(68deg)
+    }
+    100% {
+        -ms-transform: rotate(25deg);
+        transform: rotate(25deg)
+    }
+}
+
+@-webkit-keyframes sway-5 {
+    0% {
+        -webkit-transform: rotate(50deg)
+    }
+    40% {
+        -webkit-transform: rotate(78deg)
+    }
+    100% {
+        -webkit-transform: rotate(40deg)
+    }
+}
+
+@keyframes sway-5 {
+    0% {
+        -ms-transform: rotate(50deg);
+        transform: rotate(50deg)
+    }
+    40% {
+        -ms-transform: rotate(78deg);
+        transform: rotate(78deg)
+    }
+    100% {
+        -ms-transform: rotate(40deg);
+        transform: rotate(40deg)
+    }
+}
+
+@-webkit-keyframes sway-6 {
+    0% {
+        -webkit-transform: rotate(65deg)
+    }
+    40% {
+        -webkit-transform: rotate(92deg)
+    }
+    100% {
+        -webkit-transform: rotate(58deg)
+    }
+}
+
+@keyframes sway-6 {
+    0% {
+        -ms-transform: rotate(65deg);
+        transform: rotate(65deg)
+    }
+    40% {
+        -ms-transform: rotate(92deg);
+        transform: rotate(92deg)
+    }
+    100% {
+        -ms-transform: rotate(58deg);
+        transform: rotate(58deg)
+    }
+}
+
+@-webkit-keyframes sway-7 {
+    0% {
+        -webkit-transform: rotate(72deg)
+    }
+    40% {
+        -webkit-transform: rotate(118deg)
+    }
+    100% {
+        -webkit-transform: rotate(68deg)
+    }
+}
+
+@keyframes sway-7 {
+    0% {
+        -ms-transform: rotate(72deg);
+        transform: rotate(72deg)
+    }
+    40% {
+        -ms-transform: rotate(118deg);
+        transform: rotate(118deg)
+    }
+    100% {
+        -ms-transform: rotate(68deg);
+        transform: rotate(68deg)
+    }
+}
+
+@-webkit-keyframes sway-8 {
+    0% {
+        -webkit-transform: rotate(94deg)
+    }
+    40% {
+        -webkit-transform: rotate(136deg)
+    }
+    100% {
+        -webkit-transform: rotate(82deg)
+    }
+}
+
+@keyframes sway-8 {
+    0% {
+        -ms-transform: rotate(94deg);
+        transform: rotate(94deg)
+    }
+    40% {
+        -ms-transform: rotate(136deg);
+        transform: rotate(136deg)
+    }
+    100% {
+        -ms-transform: rotate(82deg);
+        transform: rotate(82deg)
+    }
+}
+
+.sakura { //edit this to change how the falling bis look, color and shape
+    background: -webkit-linear-gradient(120deg, rgba(245, 118, 26, 0.9), rgba(245, 118, 26, 0.9));
+    background: linear-gradient(120deg, rgba(226, 99, 16, 0.9), rgba(226, 99, 16, 0.9));
+    pointer-events: none;
+    position: absolute
+}
+
+/*End Falling*/
