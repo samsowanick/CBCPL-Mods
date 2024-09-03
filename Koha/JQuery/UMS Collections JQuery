@@ -1,0 +1,6 @@
+//Default select 'No' for UMS Flag
+if ( window.location.href.indexOf("cgi-bin/koha/members/memberentry.pl") ) {
+	$(document).ready(function(){
+	$("#patron_attr_2").val('0');
+	});
+}
