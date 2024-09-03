@@ -1,0 +1,80 @@
+SELECT surname as 'name', CONCAT_WS(', ',address,city,state) AS address, phone , email
+
+FROM (
+	/* Start 5 (v) */
+	SELECT ROW_NUMBER() OVER (ORDER BY surname,firstname) AS rn2,surname,firstname,email,numbholds,mostrecentcheckout, barcode,cardnumber,address,address2,city,state,phone,deliverynotes, ntile(2) over (order by surname) as tile_nr FROM (
+
+		/* Start 4 (w) */
+		SELECT surname,firstname,email,numbholds,mostrecentcheckout,barcode,cardnumber,address,address2,city,state,phone,deliverynotes FROM (
+
+			/* Start 3 (x) */
+			SELECT ROW_NUMBER() OVER (ORDER BY mostrecentcheckout) AS rn1,surname,firstname,email,numbholds,mostrecentcheckout,barcode, cardnumber, address, address2, city, state, phone, deliverynotes FROM (
+
+				/* Start 2 (y) */
+				SELECT DISTINCT surname,numbholds, mostrecentcheckout,barcode, cardnumber, firstname,email, address, address2, city, state, phone, deliverynotes FROM (
+
+					/* Start 1 (z) */
+					SELECT
+					p.borrowernumber, 
+                    COALESCE((SELECT MAX(DATE(issuedate)) FROM issues WHERE borrowernumber=p.borrowernumber AND branchcode='DLV' GROUP BY borrowernumber),
+					(SELECT MAX(DATE(issuedate)) FROM old_issues WHERE borrowernumber=p.borrowernumber AND branchcode='DLV' GROUP BY borrowernumber),
+                    (SELECT MAX(DATE(datetime)) FROM statistics WHERE borrowernumber=p.borrowernumber AND branch='DLV' AND type='issue' GROUP BY borrowernumber)) AS mostrecentcheckout,
+					p.surname as surname,
+					p.firstname AS firstname,
+                    p.cardnumber AS barcode,
+                    p.address,
+                    p.address2,
+                    p.city,
+                    p.cardnumber,
+                    p.state,
+                    p.zipcode,
+                    p.phone,
+                    p.email,
+					FORMAT((SELECT SUM(amountoutstanding) FROM accountlines WHERE borrowernumber=p.borrowernumber GROUP BY borrowernumber),2) AS totalfineamount,
+					SUBSTRING(p.borrowernotes, (LOCATE('@', p.borrowernotes) + 1), (LOCATE('@',p.borrowernotes,LOCATE('@',p.borrowernotes)+1) - LOCATE('@', p.borrowernotes) - 1)) AS deliverynotes, /*m.message AS deliverynotes, <-- depricated due to duplicating slips with multiple notes.*/
+					(SELECT COUNT(reserve_id) FROM reserves WHERE borrowernumber=r.borrowernumber AND branchcode='DLV' AND found='w' AND suspend=0 GROUP BY borrowernumber) AS numbholds,
+					r.reservedate,
+					r.waitingdate,
+					r.cancellationdate,
+					r.reservenotes,
+					r.expirationdate
+
+					FROM (SELECT * FROM reserves WHERE branchcode='DLV' AND found='w' AND suspend=0) r
+                    LEFT JOIN borrowers p ON (p.borrowernumber=r.borrowernumber)
+
+					WHERE (SELECT COUNT(reserve_id) FROM reserves WHERE borrowernumber=r.borrowernumber AND branchcode='DLV' AND found='w' AND suspend=0 GROUP BY borrowernumber) > 0 
+
+					AND 
+                    
+					(COALESCE(
+                    (SELECT MAX(DATE(issuedate)) FROM issues WHERE borrowernumber=p.borrowernumber AND branchcode='DLV' GROUP BY borrowernumber),
+                    (SELECT MAX(DATE(issuedate)) FROM old_issues WHERE borrowernumber=p.borrowernumber AND branchcode='DLV' GROUP BY borrowernumber) , 
+                    (SELECT MAX(DATE(datetime)) FROM statistics WHERE borrowernumber=p.borrowernumber AND branch='DLV' AND type='issue' GROUP BY borrowernumber))
+                    < <<Date|date>> 
+                    OR COALESCE(
+                    (SELECT MAX(DATE(issuedate)) FROM issues WHERE borrowernumber=p.borrowernumber AND branchcode='DLV' GROUP BY borrowernumber),
+                    (SELECT MAX(DATE(issuedate)) FROM old_issues WHERE borrowernumber=p.borrowernumber AND branchcode='DLV' GROUP BY borrowernumber), 
+                    (SELECT MAX(DATE(datetime)) FROM statistics WHERE borrowernumber=p.borrowernumber AND branch='DLV' AND type='issue' GROUP BY borrowernumber)) IS NULL
+                    )
+
+					AND 
+
+					((SELECT SUM(amountoutstanding) FROM accountlines WHERE borrowernumber=p.borrowernumber GROUP BY borrowernumber) <='25.00' OR (SELECT SUM(amountoutstanding) FROM accountlines WHERE borrowernumber=p.borrowernumber GROUP BY borrowernumber) IS NULL)
+
+					ORDER BY mostrecentcheckout
+					/* End 1 (z) */
+					) z WHERE barcode like <<cardnumber>>
+
+				ORDER BY mostrecentcheckout
+				/* End 2 (y) */
+				) y
+
+			ORDER BY mostrecentcheckout
+			/* END 3 (x) */
+			) x WHERE rn1 <= <<Number of Slips>>
+		ORDER BY surname, firstname
+		/* END 4 (w) */
+		) w 
+	ORDER BY surname, firstname
+	/* End 5 (v) */
+  ) v WHERE rn2 >= 1 AND rn2 <= <<Number of Slips>> 
