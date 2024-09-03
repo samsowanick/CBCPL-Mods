@@ -1,0 +1,4 @@
+/* Hide auto-renew checkbox at checkout */
+#set-automatic-renewal {
+  display: none;
+}
