@@ -1,0 +1,27 @@
+//Also Try (v21.05)
+  if($('#catalog_results').length){  //Check if you are on the search results page
+    var s = $('#breadcrumbs li').has('a[href="#"]').text().trim().match(/'(.*?)'/);
+    var searchCriteria = s[1]; //Setting variable with search criteria from the breadcrumbs line
+    $('aside').append('<br/><div id="search-also" style="border: 1px solid #b9d8d9; border-radius: 5px 5px 0 0;"><h4 style="background-color: #e6f0f2; border-bottom: 1px solid #b9d8d9; border-radius: 5px 5px 0 0; font-size: 90%; margin: 0; padding: 0.4em 0.2em; text-align: center;">Try your search in...</h4>');  //Setting header for new links in left navigation panel
+    $('#search-also').append('<a href="https://www.amazon.com/s?k=' + searchCriteria + '&i=stripbooks" target="_blank">Amazon Books</a><br/>');  //Start of some new links
+    $('#search-also').append('<a href="https://www.amazon.com/s?k=' + searchCriteria + '" target="_blank">Amazon (General Search)</a><br/>');
+    $('#search-also').append('<a href="https://www.fantasticfiction.com/search/?searchfor=author&keywords=' + searchCriteria + '" target="_blank">Fantastic Reads (Authors)</a><br/>');
+    $('#search-also').append('<a href="https://www.fantasticfiction.com/search/?searchfor=book&keywords=' + searchCriteria + '" target="_blank">Fantastic Reads (Books)</a><br/>');
+    $('#search-also').append('<a href="https://www.fantasticfiction.com/search/?searchfor=series&keywords=' + searchCriteria + '" target="_blank">Fantastic Reads (Series)</a><br/>');
+    $('#search-also').append('<a href="https://www.goodreads.com/search?utf8=%E2%9C%93&query=' + searchCriteria + '" target="_blank">GoodReads</a><br/>');
+    $('#search-also').append('<a href="https://www.google.com/search?q=' + searchCriteria + '" target="_blank">Google</a><br/><a href="https://www.google.com/search?tbm=bks&q=' + searchCriteria + '" target="_blank">Google Books</a><br/>');
+    $('#search-also').append('<a href="http://ww2.kdl.org/libcat/WhatsNext.asp?AuthorLastName=&AuthorFirstName=&SeriesName=&CategoryID=0&cmdSearch=Search&Search=1&grouping=&BookTitle=' + searchCriteria + '" target="_blank">What\'s Next (Books)</a><br/>');
+    $('#search-also').append('<a href="http://ww2.kdl.org/libcat/WhatsNext.asp?AuthorLastName=&AuthorFirstName=&CategoryID=0&cmdSearch=Search&Search=1&grouping=&BookTitle=&SeriesName=' + searchCriteria + '" target="_blank">What\'s Next (Series)</a><br/>');
+    if($('.logged-in-branch-code').first().text() == 'YOURBRANCHCODE') {  //This link will only show for a specified branch
+      $('#search-also').append('<a href="YOUR LINK HERE">SPECIAL LINK 1</a>');
+    }
+    if($('.logged-in-branch-code').first().text() == 'ANOTHERBRANCHCODE') {  //This link will only show for a different specified branch
+      $('#search-also').append('<a href="YOUR LINK HERE">SPECIAL LINK 2</a>');
+    }
+    $('#search-also').append('</div>');
+    $('aside').append('<br/><div id="search-catalogers" style="border: 1px solid #b9d8d9; border-radius: 5px 5px 0 0;"><h4 style="background-color: #e6f0f2; border-bottom: 1px solid #b9d8d9; border-radius: 5px 5px 0 0; font-size: 90%; margin: 0; padding: 0.4em 0.2em; text-align: center;">Catalogers search in...</h4>');  //New section for cataloger links
+    $('#search-catalogers').append('<a href="https://ts360.baker-taylor.com/_layouts/CommerceServer/QuickSearch.aspx?keyword=' + searchCriteria + '" target="_blank">Baker & Taylor</a><br/>');
+    $('#search-catalogers').append('<a href="https://www.blackstonelibrary.com/library/catalogsearch/result/?q=' + searchCriteria + '" target="_blank">Blackstone Library</a><br/>');
+    $('#search-catalogers').append('</div>');
+  }
+//END Also Try
