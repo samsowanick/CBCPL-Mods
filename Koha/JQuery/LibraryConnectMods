@@ -1,0 +1,17 @@
+//HB Module Mods - renaming HB to Library Connect
+$(document).ready(function(){
+  	  //Hide dow
+  	  $('#day > option:nth-child(2)').attr('selected', true);
+  	  $("#houseboundentry > ol > li:nth-child(1)").hide();
+      $('#menu > ul > li > a:contains("Housebound")').text('Library Connect');
+      $("#housebound-home > div.main.container-fluid > div > div.col-sm-10.col-sm-push-2 > main > H1").text(function(index, text) { 
+    	return text.replace('Housebound', 'Library Connect'); 
+      });
+  	  $("#housebound-home > div.main.container-fluid > div > div.col-sm-10.col-sm-push-2 > main > div:nth-child(4) > div.rows > ol > li:nth-child(1)").hide();
+ 	  $("#housebound-home > div.main.container-fluid > div > div.col-sm-10.col-sm-push-2 > main > div.page-section > div > ol > li:nth-child(1)").hide();
+	  //Hide Time
+  	  $('#segment > option:nth-child(2)').attr('selected', true);
+  	  $("#instance > ol > li:nth-child(2)").hide();
+  	  //Default Delivery
+	  $('#deliverer > option:nth-child(2)').attr('selected', true);
+});
