@@ -1,0 +1,81 @@
+SELECT '<strong>START-DATE</strong>' AS '','<strong>START-TIME</strong>' AS '', '<strong>END-DATE</strong>' AS '','<strong>END-TIME</strong>' AS '','<strong>BRANCH</strong>' AS '','','','','',''
+
+UNION ALL
+
+SELECT LEFT(CAST(CONCAT(<<Start date|date>>, ' ', <<Start time>>) AS DATETIME),10),RIGHT(CAST(CONCAT(<<Start date|date>>, ' ', <<Start time>>) AS DATETIME),8),LEFT(CAST(CONCAT(<<End date|date>>, ' ', <<End time>>) AS DATETIME),10),RIGHT(CAST(CONCAT(<<End date|date>>, ' ', <<End time>>) AS DATETIME),8),CONCAT_WS('|',<<Branch1>>,<<Branch2>>,<<Branch3>>,<<Branch4>>,<<Branch5>>,<<Type 'comprise' for aspen payments>>),'','','','',''
+
+UNION ALL
+
+SELECT '','','','','','','','','',''
+
+UNION ALL
+
+SELECT '<strong>DATE_&_TIME</strong>', '<strong>CARDNUMBER</strong>', '<strong>BARCODE</strong>', '<strong>DEBIT_CODE</strong>', '<strong>CREDIT_CODE</strong>', '<strong>WAIVED</strong>', '<strong>TENDERED</strong>', '<strong>PAYMENT_TYPE</strong>', '<strong>NOTES</strong>', '<strong>BRANCH</strong>'
+
+UNION ALL
+
+SELECT Date_Time,CONCAT('<a href=\"/cgi-bin/koha/members/boraccount.pl?borrowernumber=',borrowers.borrowernumber,'\">',borrowers.cardnumber,'</a>') AS 'cardnumber',items.barcode,debit_code,credit_code,(case when credit_code IN ('LOST_FOUND','WRITEOFF') then ROUND((ABS(b.amount)-b.amountoutstanding),2) else '0.00' end) as 'waived',(case when debit_code IN ('void') then CONCAT('-',ABS(ROUND(b.amount,2))) when credit_code IN ('PAYMENT') then ABS(ROUND(b.amount,2)) when credit_code IN ('REFUND') then CONCAT('-',ABS(ROUND(b.amount,2))) else '0.00' end) as 'tendered',b.payment_type,b.notes,b.branchcode
+             
+FROM(
+SELECT 	 GROUP_CONCAT(DISTINCT borrowernumber SEPARATOR '</br>') as 'borrowernumber',
+   	         GROUP_CONCAT(DISTINCT itemnumber SEPARATOR '</br>') as 'itemnumber',
+    	     a.date as 'Date_Time',
+   		     GROUP_CONCAT(DISTINCT manager_id SEPARATOR '</br>') as 'staff',
+    	     GROUP_CONCAT(DISTINCT debit_type_code SEPARATOR '</br>') as 'debit_code',
+             GROUP_CONCAT(DISTINCT credit_type_code SEPARATOR '</br>') as 'credit_code',
+      		 GROUP_CONCAT(DISTINCT description SEPARATOR '</br>') as 'description',
+      		 GROUP_CONCAT(DISTINCT payment_type SEPARATOR '</br>') as 'payment_type',
+      		 a.branchcode,
+      		 GROUP_CONCAT(DISTINCT note SEPARATOR '</br>') as 'notes',
+             a.amount,
+             a.amountoutstanding
+
+FROM (SELECT accountlines.*,COALESCE(d.credit_id,c.credit_id) as credit_id,c.amount as 'c_amount',d.amount as 'd_amount',accountlines.amount as 'acc_amount'	
+FROM accountlines
+LEFT JOIN account_offsets c ON (accountlines.accountlines_id=c.credit_id)
+LEFT JOIN account_offsets d ON (accountlines.accountlines_id=d.debit_id)
+                
+WHERE accountlines.date BETWEEN CAST(CONCAT(<<Start date|date>>, ' ', <<Start time>>) AS DATETIME) AND CAST(CONCAT(<<End date|date>>, ' ', <<End time>>) AS DATETIME)
+AND (accountlines.branchcode IN (<<Branch1>>,<<Branch2>>,<<Branch3>>,<<Branch4>>,<<Branch5>>) OR (accountlines.payment_type like <<Type 'comprise' for aspen payments>>))
+AND COALESCE(c.type,d.type) like 'APPLY') a
+
+GROUP BY credit_id) b
+LEFT JOIN borrowers ON (b.borrowernumber=borrowers.borrowernumber)
+LEFT JOIN items ON (b.itemnumber=items.itemnumber)
+
+WHERE b.credit_code is not null
+
+UNION ALL
+
+SELECT '','','','','<strong>TOTALS</strong>', CONCAT('<strong>',ROUND(SUM(z.waived),2),'</strong>') AS "W_Total", CONCAT('<strong>',ROUND(SUM(z.tendered),2),'</strong>') AS "T_Total",'','',''
+
+FROM (SELECT Date_Time,borrowers.cardnumber,items.barcode,debit_code,credit_code,(case when credit_code IN ('LOST_FOUND','WRITEOFF') then ROUND((ABS(b.amount)-b.amountoutstanding),2) else '0.00' end) as 'waived',(case when debit_code IN ('void') then CONCAT('-',ABS(ROUND(b.amount,2))) when credit_code IN ('PAYMENT') then ABS(ROUND(b.amount,2)) when credit_code IN ('REFUND') then CONCAT('-',ABS(ROUND(b.amount,2))) else '0.00' end) as 'tendered',b.payment_type,b.notes,b.branchcode
+             
+FROM(
+SELECT 	 GROUP_CONCAT(DISTINCT borrowernumber SEPARATOR '</br>') as 'borrowernumber',
+   	         GROUP_CONCAT(DISTINCT itemnumber SEPARATOR '</br>') as 'itemnumber',
+    	     a.date as 'Date_Time',
+   		     GROUP_CONCAT(DISTINCT manager_id SEPARATOR '</br>') as 'staff',
+    	     GROUP_CONCAT(DISTINCT debit_type_code SEPARATOR '</br>') as 'debit_code',
+             GROUP_CONCAT(DISTINCT credit_type_code SEPARATOR '</br>') as 'credit_code',
+      		 GROUP_CONCAT(DISTINCT description SEPARATOR '</br>') as 'description',
+      		 GROUP_CONCAT(DISTINCT payment_type SEPARATOR '</br>') as 'payment_type',
+      		 a.branchcode,
+      		 GROUP_CONCAT(DISTINCT note SEPARATOR '</br>') as 'notes',
+             a.amount,
+             a.amountoutstanding
+
+FROM (SELECT accountlines.*,COALESCE(d.credit_id,c.credit_id) as credit_id,c.amount as 'c_amount',d.amount as 'd_amount',accountlines.amount as 'acc_amount'	
+FROM accountlines
+LEFT JOIN account_offsets c ON (accountlines.accountlines_id=c.credit_id)
+LEFT JOIN account_offsets d ON (accountlines.accountlines_id=d.debit_id)
+                
+WHERE accountlines.date BETWEEN CAST(CONCAT(<<Start date|date>>, ' ', <<Start time>>) AS DATETIME) AND CAST(CONCAT(<<End date|date>>, ' ', <<End time>>) AS DATETIME)
+AND (accountlines.branchcode IN (<<Branch1>>,<<Branch2>>,<<Branch3>>,<<Branch4>>,<<Branch5>>) OR (accountlines.payment_type like <<Type 'comprise' for aspen payments>>))
+AND COALESCE(c.type,d.type) like 'APPLY') a
+
+GROUP BY credit_id) b
+LEFT JOIN borrowers ON (b.borrowernumber=borrowers.borrowernumber)
+LEFT JOIN items ON (b.itemnumber=items.itemnumber)) z
+
+WHERE z.credit_code is not null
