@@ -1,0 +1,58 @@
+// JS for Batch Permissions Modifier
+//Please do not modify 
+function submitHandlerMemberFlags(submitEvent) {
+  let bn = document.querySelector("input[name='member']").value;
+  $.get("/api/v1/contrib/bpm/patrons/" + bn + "/check");
+}
+
+function submitHandlerPatronLists(submitEvent) {
+  let patron_list_id = document.querySelector("input[name='patron_list_id']").value;
+  $.get("/api/v1/contrib/bpm/patrons/" + patron_list_id + "/check_list");
+}
+
+$(document).ready(function() {
+  let form = document.querySelector("form[action='/cgi-bin/koha/members/member-flags.pl']");
+  if (form) {
+  
+    form.addEventListener("submit", submitHandlerMemberFlags);
+    $("form[action='/cgi-bin/koha/members/member-flags.pl'] input[type='submit']").click(function(e){
+        submitHandlerMemberFlags();
+    });
+
+    let bn = document.querySelector("input[name='member']").value;
+
+    $.get("/api/v1/contrib/bpm/patrons/" + bn + "/check_status", function(data) {
+
+      let form = document.querySelector("form[action='/cgi-bin/koha/members/member-flags.pl']");
+      if (data.is_template_patron) {
+        let html_new = "<h1>Patron is a permissions template for the following patron lists:</h1><ul>";
+        for (var i = 0, len = data.patron_lists.length; i < len; i++) {
+          html_new += "<li><a href='/cgi-bin/koha/patron_lists/list.pl?patron_list_id=" + data.patron_lists[i].patron_list_id + "'>" + data.patron_lists[i].name + "</a></li>";
+        }
+        html_new += "</ul>";
+
+        var span = document.createElement('span');
+        span.innerHTML = html_new;
+
+        form.parentNode.insertBefore(span, form);
+
+      } else {
+        if (data.patron_list) {
+          form.insertAdjacentHTML("beforebegin", "<h1>This patron's permissions are controlled by the permissions template patron <a href='/cgi-bin/koha/members/moremember.pl?borrowernumber=" + data.template_patron.borrowernumber + "'>" + data.template_patron.surname + "</a></h1>");
+          $('#permissions_toolbar, #flag_form h1').remove();
+          $('#permissionstree input').attr('disabled','disabled');
+        }
+      }
+    });
+
+  }
+
+  form = document.querySelector("form#add_patrons[action='list.pl']");
+  if (form) {
+    form.addEventListener("submit", submitHandlerPatronLists);
+    $("form#add_patrons[action='list.pl'] input[type='submit']").click(function(e){
+        submitHandlerPatronLists();
+    });
+  }
+});
+// End of JS for Batch Permissions Modifier
