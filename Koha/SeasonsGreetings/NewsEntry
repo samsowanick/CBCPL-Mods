@@ -1,0 +1,3 @@
+Create a new news entry, title it what you want. The below code initiates the falling animation when button is toggled on. 
+//Creates a toggle switch to turn on and off
+<span>No </span><label class="switch"> <input id="fall_check" type="checkbox" /> <span class="slider round"></span></label><span> Yes</span>
