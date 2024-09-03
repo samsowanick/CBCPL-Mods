@@ -1,0 +1,44 @@
+//Add new template at Administartion > Notices and Templates > Reports Template
+//Add code under print
+
+<div class="page">
+  <div class="grid-container">
+    [% FOREACH row IN data %]
+     <div class="grid-item">
+      <div id="title">[% row.title %]</br></div>
+      <div id="author">[% row.author %]</br></div>
+      <div id="location">[% row.location %]</br></div>
+      <div id="cover">[% row.cover %]</br></div>
+      <div id="qrcode">[% row.qrcode %]</br></div>
+    </div>
+    [% END %]
+  </div>
+</div>
+
+<style>
+.page {
+    font-size: 24;
+    font-family: sans-serif;
+    width: 8.5in;
+    max-width: 8.5in;
+    min-height: 11in;
+    margin-top: 15px;
+    background-color: white;
+}
+
+.grid-container {
+  display: grid;
+  column-gap: 0.125in;
+  row-gap: 0.125in;
+  grid-template-columns: 1fr 1fr 1fr;
+}
+
+.grid-item {
+   padding: 2em;
+   margins: auto;
+}
+
+.qrcode {
+   
+}
+</style>
