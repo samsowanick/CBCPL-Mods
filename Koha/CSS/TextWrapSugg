@@ -1,0 +1,4 @@
+/* Text Wrap in Suggestions Module*/
+#suggestiontabs {
+word-break: break-word;
+}
