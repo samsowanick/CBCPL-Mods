@@ -1,0 +1,14 @@
+/* Messages Font and Color */
+#messages > ul > li > span > em {
+	color: red;
+	font-weight: bold;
+}
+
+#messages > ul > li  > span {
+	color: black;
+}
+
+#circnotes > ul > li  > span {
+	color: black;
+}
+/*END Messages*/
