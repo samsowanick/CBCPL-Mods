@@ -1,0 +1,91 @@
+////////////////////////////////////////////////per user customizations ///////////////////////////////////////////////////////
+/////////Alsea////////////
+$(document).ready(function ()     
+     { const al_staff_user = {
+     //username of staff to include below customizations. Hexcode is needed, but not used.
+     kkoetz: '#000000',
+};
+     let username = $('.loggedinusername:first').text();
+       Object.keys(al_staff_user).forEach(function(item) { 
+       if ( item === username ) { 
+                      
+$(document).keydown(function(e) {
+if (e.key === "Escape") {
+window.location.href = 'https://staff-corvallis.bywatersolutions.com/cgi-bin/koha/circ/circulation-home.pl';
+return false;}
+});
+         
+$("#container-main > div > div.col-sm-9.col-lg-6 > div:nth-child(5)").append("<div> <a href=\ 'https://staff-corvallis.bywatersolutions.com/cgi-bin/koha/reports/guided_reports.pl?reports=376&phase=Run%20this%20report' target='_blank' '>Daily Circulation Report</a> </div>");
+                  
+if (window.location.href.indexOf("circ/returns.pl") > -1) {
+$('#circ_returns_checkin').css('background', '#b3ffec');
+$('#circ_returns_checkin > h1').css('color', '#000000');}   
+                    
+if (window.location.href.indexOf("circ/circulation.pl") > -1) {
+$('#circ_circulation_issue').css('background', '#fcddae');
+$('#circ_circulation > div.main.container-fluid > main > div > div.col-sm-10.col-sm-push-2 > h1').css('color', '#000000');}                
+}
+});                                                                                        
+});
+/////////Philomath////////////
+$(document).ready(function ()     
+     { const ph_staff_user = {
+     //username of staff to include below customizations. Hexcode is needed, but not used.
+     pgavin: '#000000',
+     knoel: '#000000',
+};
+     let username = $('.loggedinusername:first').text();
+       Object.keys(ph_staff_user).forEach(function(item) { 
+       if ( item === username ) { 
+                      
+$(document).keydown(function(e) {
+if (e.key === "Escape") {
+window.location.href = 'https://staff-corvallis.bywatersolutions.com/cgi-bin/koha/circ/returns.pl';
+return false;}
+});
+                      
+$('#logo').attr('href', 'https://staff-corvallis.bywatersolutions.com/cgi-bin/koha/circ/returns.pl');
+                  
+if (window.location.href.indexOf("circ/returns.pl") > -1) {
+$('#circ_returns_checkin').css('background', '#b3ffec');
+$('#circ_returns_checkin > h1').css('color', '#000000');}   
+                    
+if (window.location.href.indexOf("circ/circulation.pl") > -1) {
+$('#circ_circulation_issue').css('background', '#fcddae');
+$('#circ_circulation > div.main.container-fluid > main > div > div.col-sm-10.col-sm-push-2 > h1').css('color', '#000000');}                
+}
+});                                                                                        
+});
+
+/////////Corv-Circ//////////
+$(document).ready(function ()     
+   { const co_staff_user = {
+//username of staff to include below customizations. Hexcode is needed, but not used.
+ssowanick: '#fffff',mhammerman: '#000000',apeterson: '#000000',sallen: '#000000',aandersen: '#000000',larora: '#000000',bashenbrenner: '#000000',patkinson: '#000000',saulerich: '#000000',sbeattie: '#000000',sbohnett: '#000000',abrandt: '#000000',mbrawner: '#000000',cburdick: '#000000',mbyfield: '#000000',ecarter: '#000000',mcasillas: '#000000',jchoi: '#000000',aconner: '#000000',kcraig: '#000000',betzkorn: '#000000',jevenden: '#000000',jextrom: '#000000',mgonzalez: '#000000',ahackett: '#000000',chull: '#000000',sjoseph: '#000000',akenoyer: '#000000',skeown: '#000000',skoetz: '#000000',rmann: '#000000',mquigley: '#000000',sronay: '#000000',pstephens: '#000000',kstevens: '#000000',awalter: '#000000',cneal: '#000000',kclark: '#000000',dsorenson: '#000000',rwren: '#000000',hweisel: '#000000',esloss: '#000000',thart: '#000000'
+};
+let username = $('.loggedinusername:first').text();
+Object.keys(co_staff_user).forEach(function(item) { 
+if ( item === username ) { 
+                      
+$(document).keydown(function(e) {
+if (e.key === "Escape") {
+window.location.href = 'https://staff-corvallis.bywatersolutions.com/cgi-bin/koha/circ/circulation-home.pl';
+return false;}
+});
+         
+$('#header_search > ul > li > a:contains("Renew")').hide();
+$('#container-main > div > div.col-sm-9.col-lg-6 > div:nth-child(1):contains("Suggestions pending approval:")').hide();
+
+                  
+if (window.location.href.indexOf("circ/returns.pl") > -1) {
+$('#circ_returns_checkin').css('background', '#b3ffec');
+$('#circ_returns_checkin > h1').css('color', '#000000');}   
+                    
+if (window.location.href.indexOf("circ/circulation.pl") > -1) {
+$('#circ_circulation_issue').css('background', '#fcddae');
+$('#circ_circulation > div.main.container-fluid > main > div > div.col-sm-10.col-sm-push-2 > h1').css('color', '#000000');}                
+}
+});                                                                                        
+});
+
+///////////////////////////////////END PER USER CUSTOMIZATIONS//////////////////////////////////////////////////////////
