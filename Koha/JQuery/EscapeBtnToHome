@@ -1,0 +1,6 @@
+//bind escape key to homepage
+$(document).keydown(function(e) {
+if (e.key === "Escape") {
+window.location.href = 'https://staff-corvallis.bywatersolutions.com/cgi-bin/koha/circ/circulation-home.pl';
+return false;}
+});
