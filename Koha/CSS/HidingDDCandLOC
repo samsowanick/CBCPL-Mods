@@ -1,0 +1,9 @@
+/* Hiding DDC in Normal view */
+.results_summary.ddc {
+    display: none;
+}
+
+/* Hiding LOC in Normal view */
+.results_summary.loc {
+    display: none;
+}
