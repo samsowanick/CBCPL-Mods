@@ -1,0 +1,12 @@
+//Accelerated Reading
+$(document).ready(function(){
+        // Add Accelerated Reading Level to advanced search
+    if (window.location.href.indexOf("catalogue/search.pl") > -1) {
+        $("select.advsearch").append('<option value="arl,phr">Accelerated Reading Level</option>');
+    }
+
+    // Add Accelerated Reading Point to advanced search
+    if (window.location.href.indexOf("catalogue/search.pl") > -1) {
+        $("select.advsearch").append('<option value="arp,phr">Accelerated Reading Point</option>');
+    }
+});
