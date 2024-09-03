@@ -1,0 +1,14 @@
+//Change Nav Color by Branch
+$(document).ready(function ()
+                 { const library_navbar = {
+                   CO: '#327fa8',
+                   MO: '#AF3D24',
+                   PH: '#24AFAE',
+                   AL: '#7024AF',
+                   DLV: '#08030C',  };
+                  let librarybranch = $('.logged-in-branch-code:first').text();
+                  Object.keys(library_navbar).forEach(function (item) { 
+                    if ( item === librarybranch ) { $('.navbar').css ('background' , library_navbar[item]); }
+                      });
+                 });
+//End Nav Color
