@@ -1,0 +1,76 @@
+//rt115286 6.15.23 LG - Delivery Report
+$(document).ready(function () {
+  if ( window.location.href.indexOf("/cgi-bin/koha/tools/page.pl") > -1 && $('#delivery_report').length ) { 
+    flatpickr("#date"); 
+    $('.print-order-address').click( function() {
+      let cardnumber = $('#cardnumber_search').val();
+      let date = $('#date').val(); 
+      let number = $('#number').val(); 
+      let realnumber = number ? number : 1000; 
+      
+      window.open("https://staff-corvallis.bywatersolutions.com/cgi-bin/koha/reports/guided_reports.pl?reports=1&phase=Export&format=ods&report_id=131&reportname=Update%20Delivery%20Addresses%20-%20DONOTDELETE&sql_params=" + date + '&sql_params=' + cardnumber + "&sql_params=" + realnumber + "&param_name=Date%7Cdate&param_name=cardnumber&param_name=Number%20of%20Slips"); 
+    }); 
+  } 
+  
+  if ( window.location.href.indexOf("/cgi-bin/koha/tools/page.pl") > -1 && $('#delivery_report').length ) { 
+    flatpickr("#date"); 
+    $('.print-order-slip').click( function() { 
+    let cardnumber = $('#cardnumber_search').val();
+    let date = $('#date').val(); 
+    let number = $('#number').val();
+    let realnumber = number ? number : 1000;
+      
+    $.getJSON("/cgi-bin/koha/svc/report?id=125&sql_params=" + date + '&sql_params=' + cardnumber + '&sql_params=' + realnumber + '&sql_params=' + realnumber, function(data) { if ( number ) { 
+        data = data.slice(0, number); }
+      		let orderWindow = window.open('',''); 
+      		data.forEach( function(item) { 
+      			let barcode_last_four = item[2].substr(-4); 
+      			let notes = item[10] ? item[10] : ''; 
+      			orderWindow.document.write(`<style>
+                      @import url(https://fonts.googleapis.com/css?family=Roboto);
+                      .page { page-break-after: page; page-break-after: always; font-family: 'Roboto'; }
+                      .fullname { text-transform: uppercase; font-size:64px; margin-bottom:10px; white-space: nowrap; width: 6in; overflow: hidden; }
+                      .barcode > span { font-size: 50px; }
+                      .address { text-transform:uppercase; font-size: 40px; margin-top: 40px;}
+                      .info { display:flex; justify-content:space-between; text-transform: uppercase; font-size: 30px; padding-top: 20px; padding-bottom: 20px; }
+					   .notes { font-size: 32px; }
+                  </style>
+                  <div class="page">
+                      <div style="display:flex;justify-content:space-between;">
+                          <div>
+                              <div class="fullname">${item[0]}, ${item[1]}</div>
+                              <div class="barcode">
+                                  <img src="/cgi-bin/koha/svc/barcode?type=Code39&notext=1&height=50&barcode=*${item[2]}*" alt="${item[2]}" width="350" height="35" /><span>.${barcode_last_four}</span>
+                              </div>
+                              <div class="address">
+                                  ${item[3]}<br/>
+                                  ${item[5]}
+                              </div>
+                          </div>
+                          <div class="logo"><img src="https://github.com/bywatersolutions/web-assets/blob/a3308a645c90db6a4ee63826c58b234c2a8ec311/sites/corvallis/corvalilisLogo.jpeg?raw=true"></div>
+                      </div>
+
+                      <div class="info">
+                          <span>${item[6]} ${barcode_last_four} (${item[8]})</span>
+                          <span>MRC: ${item[11]}</span>
+                      </div>
+                      <div style="display:flex;">
+                          <div class="qrcode">
+                              <img src="/cgi-bin/koha/svc/barcode?type=QRcode&modulesize=10&barcode=${item[3]}" alt="${item[3]}" width="290" height="290" />
+                          </div>
+                          <div class="notes">Notes:${notes}</div>
+                      </div>
+                      <div style="float:right;">Returned plastic bags can be reused for future deliveries. Thank you!</div>
+                  </div>`); 
+            	}); 
+     		orderWindow.document.close(); 
+     		orderWindow.focus(); 
+     		setTimeout(function() { 
+    		 orderWindow.print(); 
+   			 orderWindow.close(); 
+            }, 1000); 
+         }); 
+    }); 
+  }  
+});
+//END Delivery report
