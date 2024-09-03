@@ -7,3 +7,16 @@
 .results_summary.loc {
     display: none;
 }
+
+/* Hiding DDC in Normal view */
+.results_summary.ddc {
+    display: none;
+}
+.manualcredit {
+display: none !important;
+}
+
+/* Highlight mandatory MARC fields */
+.subfield_mandatory  {
+  color: red !important;
+}
