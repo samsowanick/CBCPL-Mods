@@ -1,3 +1,5 @@
+Needs updated to remove the use of staff ids in script. Instead use a report and User Lists. 
+
 ////////////////////////////////////////////////per user customizations ///////////////////////////////////////////////////////
 /////////Alsea////////////
 $(document).ready(function ()     
