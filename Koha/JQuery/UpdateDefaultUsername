@@ -1,0 +1,6 @@
+//Causes the user cardnumber to auto populate to the Username.
+$(document).ready(function(){
+$("#entryform #cardnumber").blur(function(){
+$("#entryform #userid").val($("#entryform #cardnumber").val());
+});
+});
