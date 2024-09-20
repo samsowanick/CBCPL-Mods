@@ -4,6 +4,6 @@ Create two sql reports in koha; one to get 250 items from a collection, the othe
 
 In order for the call to not be blocked by CORS, you will need to disable CORS. If you are host by a support company, this is something they will need to do.
 
-The sql reports locations and the JSON api URLs need updated to a new instance. CSS and HTML tweeking to match your specific instance. For Title cover images, they are pulled from our discovery layer AspendDiscovery. May need adjusted as well. Potentailly possible to pull cover images from amazon, so it would be more univesral, but this way our LoT images show too.
+The sql reports locations and the JSON api URLs need updated to a new instance. CSS and HTML tweeking to match your specific instance. For Title cover images, they are pulled from our discovery layer AspendDiscovery. Will need adjusted as well. Potentailly possible to pull cover images from amazon, but this way our LoT images show too.
 
-Orginal idea: [icpl.org/book-cover/surprise-me](https://www.icpl.org/books-more/surprise-me)
+Inspiration: [icpl.org/book-cover/surprise-me](https://www.icpl.org/books-more/surprise-me)
