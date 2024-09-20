@@ -1,0 +1,40 @@
+//Report 1 - get list of 250 items
+SELECT a.biblionumber
+
+FROM 
+
+(SELECT biblionumber,<<location>> as 'collection'
+
+FROM items
+
+WHERE items.notforloan=0
+AND items.damaged=0
+AND items.itemlost=0
+AND items.withdrawn=0
+AND items.barcode is not null) a
+LEFT JOIN items USING (biblionumber)
+
+WHERE (CASE 
+		WHEN a.collection like 'fiction' THEN items.location IN ("AFIC","YFIC")
+        WHEN a.collection like 'nonfiction' THEN items.location IN ("ANONFIC","YANONFIC")
+        WHEN a.collection like 'graphicnovels' THEN items.location IN ("AGN","JGN","YAGN")
+        WHEN a.collection like 'dvd' THEN items.location IN ("ADVD","JDVD")
+        WHEN a.collection like 'youngadult' THEN items.location IN ("YFIC","YANONFIC")
+        WHEN a.collection like 'juvenilechapter' THEN items.location IN ("JFIC")
+     	WHEN a.collection like 'juvenilepicture' THEN items.location IN ("JEASY")
+     	WHEN a.collection like 'juvenileearly' THEN items.location IN ("JEARLY")
+     END)
+     
+LIMIT 250
+ORDER BY RAND()
+
+
+  
+//Report 2 - get Item Information
+SELECT REPLACE(REPLACE(biblio.title," /","")," :","") as 'title',IFNULL(items.itemcallnumber,""),IFNULL(biblio.author,""),IFNULL(biblio.abstract,"No description provided"),IFNULL(items.ccode,""),items.location,items.itype,biblio.biblionumber,IFNULL(bi.isbn,"")
+
+FROM biblio
+LEFT JOIN items USING (biblionumber)
+LEFT JOIN biblioitems bi USING (biblioitemnumber)
+
+WHERE biblio.biblionumber like <<input>>
