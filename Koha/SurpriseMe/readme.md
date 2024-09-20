@@ -1,7 +1,9 @@
-A JS based page that submits a get request to the public JSON reports URL and retrieves / displays a random book from a given collection at random.
+This project creates a web page that retrieves and displays a random result from Koha.
 
-Need two sql reports
-  1. to get a list of 100-ish biblio number
-  2. to get the specific details of a randomly selected biblio from the above list
+Create two sql reports in koha; one to get 250 items from a collection, the other to get the item information for that specific biblionumber. Both reports are passed a variable via the URL. One for what collection to query, the other is a random result from the 250 retrieved items. When calling the api, it does not give a completely new result on each call, instead it caches the result (unless the parameter changes in the url). This is why two reports are required.
 
-Display the item information and link to OPAC record.
+In order for the call to not be blocked by CORS, you will need to disable CORS. If you are host by a support company, this is something they will need to do.
+
+The sql reports locations and the JSON api URLs need updated to a new instance. CSS and HTML tweeking to match your specific instance. For Title cover images, they are pulled from our discovery layer AspendDiscovery. May need adjusted as well. Potentailly possible to pull cover images from amazon, so it would be more univesral, but this way our LoT images show too.
+
+Orginal idea: [icpl.org/book-cover/surprise-me](https://www.icpl.org/books-more/surprise-me)
