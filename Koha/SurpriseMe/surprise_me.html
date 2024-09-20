@@ -1,5 +1,161 @@
-<div id="surpriseText">
-<h1><span style="font-size: 14px;">Use the below button to get a random item reccomenedation</span></h1>
-</div>
-<div><input id="getSurprise" type="button" value="Click Me" onclick="getItem();" /></div>
-<div id="newItem"></div>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Random Title</title>
+</head>
+<style>
+.collection_selection {
+        background-color: #e3924b;
+        border: none;
+        color: white;
+        text-align: center;
+        text-decoration: none;
+        font-size: 16px;
+        transition-duration: 0.2s;
+        cursor: pointer;
+        height: 40px;
+        margin-top: 10px;
+        margin-bottom: 10px;
+        margin-left: 10px;
+        border-radius: 6px;
+        width: 160px;
+}
+
+.collection_selection:focus {
+        background-color: #9ab654;
+        border: none;
+        color: white;
+        text-align: center;
+        text-decoration: none;
+        font-size: 16px;
+        transition-duration: 0.2s;
+        cursor: pointer;
+        height: 40px;
+        margin-top: 10px;
+        margin-bottom: 10px;
+        margin-left: 10px;
+        border-radius: 6px;
+        width: 160px;
+}
+
+.submit_button {
+        background-color: #a47ee2;
+        border: none;
+        color: white;
+        text-align: center;
+        text-decoration: none;
+        font-size: 16px;
+        transition-duration: 0.2s;
+        cursor: pointer;
+        height: 40px;
+        margin-top: 10px;
+        margin-bottom: 10px;
+        margin-left: 10px;
+        border-radius: 6px;
+        width: 160px;
+}
+
+#result > div:nth-child(even) {
+background-color: #ebe4da;
+padding: 10px 10px 10px 10px;
+}
+
+#result > div:nth-child(odd) {
+background-color: #dedcd9;
+padding: 10px 10px 10px 10px;
+}
+
+.loader {
+  margin: 1em;
+  border-radius: 50%;
+  box-sizing: border-box;
+  border-width: 20px;
+  border-style: solid;
+  border-style: solid;
+  border-radius: 50%;
+  border-color: #9cd6e0 #9ab654 #bf491f #e3924b;
+  width: 30px;
+  height: 30px;
+  -webkit-animation: spin 2s linear infinite;
+  animation: spin 2s linear infinite;
+  float: right;
+}
+
+@-webkit-keyframes spin {
+  0% { -webkit-transform: rotate(0deg); }
+  100% { -webkit-transform: rotate(360deg); }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+</style>
+<body>
+	<div id="chooseCollection">
+		<button autofocus type="button" class="collection_selection" name="fiction" value="Fiction" onclick="changeValue('fiction')">Fiction</button>
+		<button type="button" class="collection_selection" name="nonfiction" value="Non Fiction" onclick="changeValue('nonfiction')">Non Fiction</button>
+		<button type="button" class="collection_selection" name="graphicnovels" value="Graphic Novels" onclick="changeValue('graphicnovels')">Graphic Novels</button>
+		<button type="button" class="collection_selection" name="dvd" value="DVDs" onclick="changeValue('dvd')">DVD's</button>
+		<button type="button" class="collection_selection" name="youngadult" value="Teen" onclick="changeValue('youngadult')">Teen Books</button>
+		<button type="button" class="collection_selection" name="juvenilechapter" value="Kids Chapter Books" onclick="changeValue('juvenilechapter')">Kids Chapter Books</button>
+		<button type="button" class="collection_selection" name="juvenilepicture" value="Kids Picture Books" onclick="changeValue('juvenilepicture')">Kids Picture Books</button>
+		<button type="button" class="collection_selection" name="juvenileearly" value="Kids Early Readers" onclick="changeValue('juvenileearly')">Kids Early Readers</button>
+		</br></br><button type="button" class="submit_button" id="fetchButton">Surprise!</button><div id="loader" class="loader" style="visibility: hidden"></div>
+	</div>
+ 
+	<div id="result"></div>
+    <script>
+	//Get Collection variable for Random Item Call
+	let collection = "fiction"; //Set default value
+	function changeValue(updateValue) {
+		collection = updateValue;
+	}
+	
+	//Get the data from KOHA
+    async function fetchData() {
+	document.getElementById('loader').style.visibility = "visible";
+
+	
+        try {
+            const randBib = await fetch("https://corvallis.bywatersolutions.com/cgi-bin/koha/svc/report?id=513&sql_params=" + collection);
+            const bibNumber = await randBib.json();
+
+            // Generate a random index within the data array & Get the random number from the list
+            const randomIndex = Math.floor(Math.random() * bibNumber.length);
+            const bibFinal = bibNumber[randomIndex];
+
+            // Make the second API request using the random number
+            const titleResponse = await fetch("https://corvallis.bywatersolutions.com/cgi-bin/koha/svc/report?id=511&sql_params=" + bibFinal);
+            const titleData = await titleResponse.json();
+
+			//convert JSON to JAVA and Define all results
+			const resultTitle = titleData[0][0]
+			const resultCallNum = titleData[0][1]
+			const resultAuthor = titleData[0][2]
+			const resultAbstract = titleData[0][3].substr(0,300) + "..."
+			const resultCollection = titleData[0][4]
+			const resultLocation = titleData[0][5]
+			const resultItemType = titleData[0][6]
+			const resultBiblioNum = titleData[0][7]
+			const resultISBN = titleData[0][8]
+			
+			// Display the results -- move to displaying in html
+			var nResult = document.createElement('div');
+			//replace below line with "const resultElement = document.getElementById('result').appendChild(nResult);" for it to list results
+			const resultElement = document.getElementById('result');
+			resultElement.innerHTML =
+			'<div class="surprise-item row"><div class="col-sm-2"><a href="https://corvallis.aspendiscovery.org/Record/'+resultBiblioNum+'" class="surprise-link-cover-'+collection+'" target="_blank" ><img class="img-responsive" src="https://corvallis.aspendiscovery.org/bookcover.php?id=ils:'+resultBiblioNum+'&size=medium" title="'+resultTitle+'" alt="'+resultTitle+' book cover"></a></div><div class="col-sm-10"><h3><a href="https://corvallis.aspendiscovery.org/Record/'+resultBiblioNum+'" class="surprise-link-title-'+collection+'" target="_blank" >'+resultTitle+'</a></h3><p>'+resultAuthor+'</p><p>'+resultCallNum+'</p><p>'+resultAbstract+'</p></div></div>';
+			
+			} catch (error) {
+				console.error('Error fetching data:', error);
+		}
+	document.getElementById('loader').style.visibility = "hidden";
+	}
+	
+    // Get the button element & Add a click event listener to the button
+    const fetchButton = document.getElementById('fetchButton');
+    fetchButton.addEventListener('click', fetchData);
+    </script>
+</body>
+</html>
